@@ -1,219 +1,148 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign In</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Auth App</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0f;--surface:#16161a;--surface2:#1e1e24;
+  --border:#2a2a32;--text:#ede8e3;--muted:#6b6677;
+  --accent:#c8b8f0;--accent2:#f0c8b8;
+  --green:#4ade80;--red:#f87171;--yellow:#fbbf24;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.bg-blob{position:fixed;border-radius:50%;filter:blur(120px);opacity:.13;pointer-events:none;animation:drift 12s ease-in-out infinite alternate}
+.bg-blob-1{width:600px;height:600px;background:#7c4dff;top:-200px;left:-200px}
+.bg-blob-2{width:500px;height:500px;background:#ff6d42;bottom:-150px;right:-150px;animation-delay:-4s}
+.bg-blob-3{width:350px;height:350px;background:#00bcd4;top:40%;left:40%;animation-delay:-8s}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(30px,-30px) scale(1.05)}}
 
-    :root {
-      --bg: #0d0d0f;
-      --surface: #16161a;
-      --border: #2a2a32;
-      --text: #ede8e3;
-      --muted: #6b6677;
-      --accent: #c8b8f0;
-      --accent2: #f0c8b8;
-      --google-blue: #4285F4;
-    }
+/* ── CARD ── */
+.card{position:relative;width:100%;max-width:440px;background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:44px 40px;animation:fadeUp .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+/* ── LOGO ── */
+.logo{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;margin-bottom:24px;display:flex;align-items:center;justify-content:center}
+.logo svg{width:22px;height:22px;fill:#0d0d0f}
 
-    /* Ambient background blobs */
-    .bg-blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.15;
-      pointer-events: none;
-      animation: drift 12s ease-in-out infinite alternate;
-    }
-    .bg-blob-1 { width: 600px; height: 600px; background: #7c4dff; top: -200px; left: -200px; }
-    .bg-blob-2 { width: 500px; height: 500px; background: #ff6d42; bottom: -150px; right: -150px; animation-delay: -4s; }
-    .bg-blob-3 { width: 350px; height: 350px; background: #00bcd4; top: 40%; left: 40%; animation-delay: -8s; }
+h1{font-family:'Fraunces',serif;font-weight:300;font-size:1.9rem;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
+h1 em{font-style:italic;color:var(--accent)}
+.subtitle{font-size:.875rem;color:var(--muted);margin-bottom:32px;line-height:1.5}
 
-    @keyframes drift {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(30px, -30px) scale(1.05); }
-    }
+/* ── DIVIDER ── */
+.divider{display:flex;align-items:center;gap:12px;margin:4px 0 20px;color:var(--muted);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.divider::before,.divider::after{content:'';flex:1;border-top:1px solid var(--border)}
 
-    /* Card */
-    .card {
-      position: relative;
-      width: 420px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 48px 44px;
-      backdrop-filter: blur(20px);
-      animation: fadeUp 0.7s cubic-bezier(.16,1,.3,1) both;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+/* ── GOOGLE BTN ── */
+.btn-google{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;padding:13px 20px;background:#fff;color:#1f1f1f;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.9375rem;font-weight:500;cursor:pointer;transition:background .15s,box-shadow .15s,transform .1s;margin-bottom:16px}
+.btn-google:hover{background:#f5f5f5;box-shadow:0 4px 20px rgba(0,0,0,.3);transform:translateY(-1px)}
+.btn-google:active{transform:translateY(0)}
 
-    /* Logo mark */
-    .logo {
-      width: 44px; height: 44px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border-radius: 12px;
-      margin-bottom: 28px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .logo svg { width: 22px; height: 22px; fill: #0d0d0f; }
+/* ── INPUT ── */
+.input-group{margin-bottom:13px;position:relative}
+.input-group label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:5px;letter-spacing:.02em}
+.input-group input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 40px 12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .15s}
+.input-group input:focus{border-color:var(--accent)}
+.input-group input::placeholder{color:var(--muted)}
+.eye-btn{position:absolute;right:12px;bottom:11px;background:none;border:none;cursor:pointer;color:var(--muted);padding:2px;transition:color .15s;line-height:1}
+.eye-btn:hover{color:var(--text)}
+.eye-btn svg{width:18px;height:18px;display:block}
 
-    h1 {
-      font-family: 'Fraunces', serif;
-      font-weight: 300;
-      font-size: 2rem;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 8px;
-    }
-    h1 em { font-style: italic; color: var(--accent); }
+/* ── PRIMARY BTN ── */
+.btn-primary{width:100%;padding:13px;background:var(--accent);color:#0d0d0f;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.9375rem;font-weight:500;cursor:pointer;transition:opacity .15s,transform .1s;margin-top:4px}
+.btn-primary:hover{opacity:.85;transform:translateY(-1px)}
+.btn-primary:active{transform:translateY(0)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
 
-    .subtitle {
-      font-size: 0.875rem;
-      color: var(--muted);
-      margin-bottom: 36px;
-      line-height: 1.5;
-    }
+/* ── SECONDARY BTN ── */
+.btn-secondary{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:10px 18px;border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.875rem;transition:border-color .15s,background .15s}
+.btn-secondary:hover{background:#25252c;border-color:var(--accent)}
 
-    /* Divider */
-    .divider {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: 24px;
-      color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .divider::before, .divider::after {
-      content: ''; flex: 1;
-      border-top: 1px solid var(--border);
-    }
+/* ── FOOTER TEXT ── */
+.footer-text{text-align:center;font-size:.8rem;color:var(--muted);margin-top:24px}
+.footer-text a{color:var(--accent);text-decoration:none}
+.footer-text a:hover{text-decoration:underline}
 
-    /* Google Button */
-    .btn-google {
-      width: 100%;
-      display: flex; align-items: center; justify-content: center; gap: 12px;
-      padding: 14px 20px;
-      background: #fff;
-      color: #1f1f1f;
-      border: none;
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9375rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
-      margin-bottom: 16px;
-    }
-    .btn-google:hover { background: #f5f5f5; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transform: translateY(-1px); }
-    .btn-google:active { transform: translateY(0); }
-    .btn-google svg { flex-shrink: 0; }
+/* ── TOAST ── */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 20px;font-size:.875rem;color:var(--text);opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;z-index:9999;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.success{border-color:var(--green);color:var(--green)}
+#toast.error{border-color:var(--red);color:var(--red)}
+#toast.warn{border-color:var(--yellow);color:var(--yellow)}
 
-    /* Email fallback */
-    .input-group { margin-bottom: 14px; }
-    .input-group label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.02em; }
-    .input-group input {
-      width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 14px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-    .input-group input:focus { border-color: var(--accent); }
-    .input-group input::placeholder { color: var(--muted); }
+/* ── PANELS ── */
+.panel{display:none}
+.panel.active{display:block}
 
-    .btn-primary {
-      width: 100%;
-      padding: 14px;
-      background: var(--accent);
-      color: #0d0d0f;
-      border: none;
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9375rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: opacity 0.15s, transform 0.1s;
-      margin-top: 4px;
-    }
-    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
-    .btn-primary:active { transform: translateY(0); }
+/* ── VERIFY EMAIL SCREEN ── */
+.verify-box{text-align:center;padding:8px 0}
+.verify-box .icon-big{font-size:3rem;margin-bottom:16px}
+.verify-box p{color:var(--muted);font-size:.875rem;line-height:1.6;margin-bottom:24px}
 
-    .footer-text {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 28px;
-    }
-    .footer-text a { color: var(--accent); text-decoration: none; }
-    .footer-text a:hover { text-decoration: underline; }
+/* ── DASHBOARD ── */
+.dash-header{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.dash-avatar{width:54px;height:54px;border-radius:50%;border:2px solid var(--accent);flex-shrink:0}
+.dash-name{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:300;line-height:1.2}
+.dash-email{font-size:.78rem;color:var(--muted);margin-top:2px}
+.badge-verify{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;margin-top:4px;padding:2px 8px;border-radius:20px;background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+.badge-unverify{background:rgba(251,191,36,.1);color:var(--yellow);border-color:rgba(251,191,36,.25)}
 
-    /* Toast */
-    #toast {
-      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
-      background: #1e1e24; border: 1px solid var(--border); border-radius: 10px;
-      padding: 12px 20px; font-size: 0.875rem; color: var(--text);
-      opacity: 0; transition: all 0.3s; pointer-events: none; white-space: nowrap;
-      z-index: 999;
-    }
-    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    #toast.success { border-color: #4ade80; color: #4ade80; }
-    #toast.error   { border-color: #f87171; color: #f87171; }
+/* ── SECTION CARDS ── */
+.section-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px}
+.section-title{font-size:.8rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-title svg{width:14px;height:14px;opacity:.6}
 
-    /* User info after login */
-    #user-info {
-      display: none;
-      text-align: center;
-    }
-    #user-info.visible { display: block; }
-    #user-info img {
-      width: 72px; height: 72px; border-radius: 50%;
-      border: 2px solid var(--accent);
-      margin-bottom: 16px;
-    }
-    #user-info .welcome {
-      font-family: 'Fraunces', serif;
-      font-size: 1.5rem;
-      font-weight: 300;
-      margin-bottom: 6px;
-    }
-    #user-info .email { color: var(--muted); font-size: 0.875rem; margin-bottom: 24px; }
-    .btn-signout {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 10px 24px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.875rem;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .btn-signout:hover { border-color: #f87171; color: #f87171; }
+.field-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.field-row input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.875rem;outline:none;transition:border-color .15s}
+.field-row input:focus{border-color:var(--accent)}
+.field-row input::placeholder{color:var(--muted)}
+.btn-save{padding:9px 16px;background:var(--accent);color:#0d0d0f;border:none;border-radius:8px;cursor:pointer;font-size:.825rem;font-weight:500;transition:opacity .15s}
+.btn-save:hover{opacity:.85}
 
-    #login-form { transition: opacity 0.3s; }
-  </style>
+/* 2FA */
+.twofa-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.twofa-label{font-size:.875rem}
+.twofa-sub{font-size:.75rem;color:var(--muted);margin-top:2px}
+.toggle-switch{position:relative;width:42px;height:24px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--border);border-radius:24px;cursor:pointer;transition:.3s}
+.slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s}
+.toggle-switch input:checked+.slider{background:var(--accent)}
+.toggle-switch input:checked+.slider::before{transform:translateX(18px)}
+
+.qr-area{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;margin-top:12px}
+.qr-area canvas{border-radius:8px}
+.qr-secret{font-family:monospace;font-size:.8rem;color:var(--accent);word-break:break-all;margin-top:10px;background:rgba(200,184,240,.06);padding:8px;border-radius:6px}
+.totp-input-row{display:flex;gap:8px;margin-top:14px}
+.totp-input-row input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:monospace;font-size:1.1rem;letter-spacing:.15em;text-align:center;outline:none;transition:border-color .15s}
+.totp-input-row input:focus{border-color:var(--accent)}
+
+/* BACKUP CODES */
+.backup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.backup-code{font-family:monospace;font-size:.85rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;text-align:center;letter-spacing:.1em;color:var(--accent2)}
+.backup-code.used{opacity:.35;text-decoration:line-through}
+
+/* SIGN OUT */
+.btn-danger{background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 18px;border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.875rem;transition:border-color .15s,color .15s;width:100%;margin-top:4px}
+.btn-danger:hover{border-color:var(--red);color:var(--red)}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;width:100%;max-width:380px;animation:fadeUp .4s cubic-bezier(.16,1,.3,1)}
+.modal h2{font-family:'Fraunces',serif;font-weight:300;font-size:1.4rem;margin-bottom:8px}
+.modal p{font-size:.85rem;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.modal-btns{display:flex;gap:10px;margin-top:20px}
+.modal-btns button{flex:1}
+
+@media(max-width:480px){
+  .card{padding:32px 24px}
+  .backup-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
 
@@ -221,26 +150,22 @@
 <div class="bg-blob bg-blob-2"></div>
 <div class="bg-blob bg-blob-3"></div>
 
-<div class="card">
-  <!-- LOGIN FORM -->
-  <div id="login-form">
+<!-- ══════════════════════════════════════
+     AUTH CARD
+═══════════════════════════════════════ -->
+<div class="card" id="main-card">
+
+  <!-- ── AUTH PANEL ── -->
+  <div class="panel active" id="panel-auth">
     <div class="logo">
-      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <svg viewBox="0 0 24 24" stroke="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
     </div>
-    <h1>Selamat<br><em>datang kembali</em></h1>
-    <p class="subtitle">Masuk ke akun kamu untuk melanjutkan.</p>
+    <h1 id="auth-title">Selamat<br><em>datang kembali</em></h1>
+    <p class="subtitle" id="auth-sub">Masuk ke akun kamu untuk melanjutkan.</p>
 
     <div class="divider">lanjutkan dengan</div>
-
-    <button class="btn-google" id="btn-google-signin">
-      <!-- Google Icon -->
-      <svg width="20" height="20" viewBox="0 0 48 48">
-        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-        <path fill="none" d="M0 0h48v48H0z"/>
-      </svg>
+    <button class="btn-google" id="btn-google">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Sign in with Google
     </button>
 
@@ -248,47 +173,169 @@
 
     <div class="input-group">
       <label>Email</label>
-      <input type="email" id="email" placeholder="kamu@email.com" />
+      <input type="email" id="inp-email" placeholder="kamu@email.com"/>
     </div>
+
+    <div class="input-group" id="grp-username" style="display:none">
+      <label>Username</label>
+      <input type="text" id="inp-username" placeholder="username kamu (tanpa spasi)"/>
+    </div>
+
     <div class="input-group">
       <label>Password</label>
-      <input type="password" id="password" placeholder="••••••••" />
+      <input type="password" id="inp-pw" placeholder="••••••••"/>
+      <button class="eye-btn" id="eye-pw" type="button" aria-label="Lihat password">
+        <svg id="eye-pw-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
     </div>
-    <button class="btn-primary" id="btn-email-signin">Masuk</button>
+
+    <div class="input-group" id="grp-pw2" style="display:none">
+      <label>Konfirmasi Password</label>
+      <input type="password" id="inp-pw2" placeholder="••••••••"/>
+      <button class="eye-btn" id="eye-pw2" type="button" aria-label="Lihat konfirmasi password">
+        <svg id="eye-pw2-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+
+    <button class="btn-primary" id="btn-auth">Masuk</button>
 
     <p class="footer-text">
-      Belum punya akun? <a href="#" id="toggle-mode">Daftar sekarang</a>
+      <span id="toggle-label">Belum punya akun?</span>
+      <a href="#" id="btn-toggle"> Daftar sekarang</a>
     </p>
   </div>
 
-  <!-- USER INFO (after login) -->
-  <div id="user-info">
-    <img id="user-photo" src="" alt="foto profil" />
-    <div class="welcome" id="user-name">Hai, User!</div>
-    <div class="email" id="user-email">user@email.com</div>
-    <button class="btn-signout" id="btn-signout">Keluar</button>
+  <!-- ── VERIFY EMAIL PANEL ── -->
+  <div class="panel" id="panel-verify">
+    <div class="verify-box">
+      <div class="icon-big">📧</div>
+      <h1 style="margin-bottom:12px">Cek <em>emailmu</em></h1>
+      <p>Kami kirimkan link verifikasi ke<br/><strong id="verify-email-addr" style="color:var(--text)"></strong><br/>Klik link tersebut lalu kembali ke sini.</p>
+      <button class="btn-primary" id="btn-check-verify">Saya sudah verifikasi →</button>
+      <br/>
+      <button class="btn-secondary" id="btn-resend-verify" style="margin-top:12px;width:100%">Kirim ulang email</button>
+      <p class="footer-text" style="margin-top:16px"><a href="#" id="btn-back-from-verify">← Kembali ke login</a></p>
+    </div>
+  </div>
+
+  <!-- ── DASHBOARD PANEL ── -->
+  <div class="panel" id="panel-dash">
+
+    <!-- Header -->
+    <div class="dash-header">
+      <img class="dash-avatar" id="dash-photo" src="" alt="avatar"/>
+      <div>
+        <div class="dash-name" id="dash-name">Pengguna</div>
+        <div class="dash-email" id="dash-email"></div>
+        <span class="badge-verify badge-unverify" id="badge-verify">✉ Belum diverifikasi</span>
+      </div>
+    </div>
+
+    <!-- Profile section -->
+    <div class="section-card">
+      <div class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profil
+      </div>
+      <div class="input-group" style="margin-bottom:10px">
+        <label>Display Name</label>
+        <div class="field-row">
+          <input type="text" id="inp-displayname" placeholder="Nama tampilan kamu"/>
+          <button class="btn-save" id="btn-save-displayname">Simpan</button>
+        </div>
+      </div>
+      <div class="input-group" style="margin-bottom:0">
+        <label>Username</label>
+        <div class="field-row">
+          <input type="text" id="inp-uname-dash" placeholder="@username"/>
+          <button class="btn-save" id="btn-save-username">Simpan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security section -->
+    <div class="section-card">
+      <div class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Keamanan Akun
+      </div>
+
+      <!-- 2FA Toggle -->
+      <div class="twofa-row">
+        <div>
+          <div class="twofa-label">Verifikasi 2 Langkah (2FA)</div>
+          <div class="twofa-sub" id="twofa-status-text">Belum aktif — akun lebih rentan</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-2fa"/>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- TOTP Setup -->
+      <div id="totp-setup-area" style="display:none">
+        <div class="qr-area">
+          <p style="font-size:.8rem;color:var(--muted);margin-bottom:12px">Scan QR ini dengan Google Authenticator / Authy</p>
+          <canvas id="qr-canvas"></canvas>
+          <div class="qr-secret" id="totp-secret-display"></div>
+          <p style="font-size:.75rem;color:var(--muted);margin-top:8px">Atau masukkan kode manual di atas ke app authenticator kamu</p>
+        </div>
+        <div class="totp-input-row">
+          <input type="text" id="inp-totp-verify" maxlength="6" placeholder="000000" inputmode="numeric"/>
+          <button class="btn-save" id="btn-verify-totp" style="padding:10px 16px">Aktifkan</button>
+        </div>
+      </div>
+
+      <!-- Backup codes -->
+      <div id="backup-area" style="display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="twofa-label">Kode Cadangan</div>
+          <button class="btn-secondary" id="btn-regen-backup" style="font-size:.75rem;padding:6px 12px">Buat ulang</button>
+        </div>
+        <p style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Simpan kode ini di tempat aman. Tiap kode hanya bisa dipakai sekali.</p>
+        <div class="backup-grid" id="backup-grid"></div>
+        <button class="btn-secondary" id="btn-copy-backup" style="width:100%;margin-top:4px;font-size:.8rem">📋 Salin semua kode</button>
+      </div>
+    </div>
+
+    <button class="btn-danger" id="btn-signout">Keluar dari akun</button>
+  </div>
+
+</div><!-- /card -->
+
+<!-- ── MODAL: Konfirmasi Regen Backup ── -->
+<div class="modal-overlay" id="modal-regen">
+  <div class="modal">
+    <h2>Buat ulang <em>kode cadangan?</em></h2>
+    <p>Semua kode lama akan tidak berlaku. Pastikan kamu simpan kode baru setelah dibuat.</p>
+    <div class="modal-btns">
+      <button class="btn-secondary" id="modal-regen-cancel">Batal</button>
+      <button class="btn-primary" id="modal-regen-confirm">Ya, buat ulang</button>
+    </div>
   </div>
 </div>
 
 <div id="toast"></div>
 
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getAuth,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+<!-- QR Code lib (pure JS, no canvas API issues) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-  // =============================================
-  //  GANTI DENGAN CONFIG FIREBASE KAMU DI SINI
-  // =============================================
-  const firebaseConfig = {
+<!-- Firebase -->
+<script type="module">
+import { initializeApp }           from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth, GoogleAuthProvider, signInWithPopup,
+  signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  sendEmailVerification, updateProfile, signOut, onAuthStateChanged, reload
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, setDoc, getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// ════════════════════════════════════════
+//  🔧 GANTI CONFIG DI SINI
+// ════════════════════════════════════════
+const firebaseConfig = {
   apiKey: "AIzaSyDk55Wc3XWV2mWmJA7c113fiw8jfWMBh4o",
   authDomain: "auth-2b662.firebaseapp.com",
   projectId: "auth-2b662",
@@ -297,90 +344,32 @@
   appId: "1:589694812230:web:9e0e61e4ba6d997b914a47",
   measurementId: "G-N87036P7M5"
 };
-  // =============================================
+// ════════════════════════════════════════
 
-  const app      = initializeApp(firebaseConfig);
-  const auth     = getAuth(app);
-  const provider = new GoogleAuthProvider();
+const app      = initializeApp(firebaseConfig);
+const auth     = getAuth(app);
+const db       = getFirestore(app);
+const provider = new GoogleAuthProvider();
 
-  // Utils
-  const $ = id => document.getElementById(id);
-  let isSignUp = false;
+// ── helpers ──
+const $   = id => document.getElementById(id);
+const B64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-  function showToast(msg, type = '') {
-    const t = $('toast');
-    t.textContent = msg;
-    t.className = 'show ' + type;
-    setTimeout(() => t.className = '', 3000);
-  }
+function showToast(msg, type=''){
+  const t=$('toast'); t.textContent=msg; t.className='show '+type;
+  clearTimeout(t._tid); t._tid=setTimeout(()=>t.className='',3200);
+}
 
-  function showUser(user) {
-    $('login-form').style.display = 'none';
-    $('user-info').classList.add('visible');
-    $('user-photo').src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=c8b8f0&color=0d0d0f`;
-    $('user-name').textContent = 'Hai, ' + (user.displayName || 'Pengguna') + '!';
-    $('user-email').textContent = user.email;
-  }
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  $(id).classList.add('active');
+}
 
-  function showLogin() {
-    $('login-form').style.display = 'block';
-    $('user-info').classList.remove('visible');
-  }
-
-  // Auth state listener
-  onAuthStateChanged(auth, user => {
-    if (user) showUser(user);
-    else showLogin();
-  });
-
-  // Google Sign-In
-  $('btn-google-signin').addEventListener('click', async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      showToast('Berhasil masuk sebagai ' + result.user.displayName, 'success');
-    } catch (e) {
-      showToast(e.message, 'error');
-    }
-  });
-
-  // Email Sign-In / Sign-Up
-  $('btn-email-signin').addEventListener('click', async () => {
-    const email    = $('email').value.trim();
-    const password = $('password').value;
-    if (!email || !password) return showToast('Isi email dan password dulu ya!', 'error');
-    try {
-      if (isSignUp) {
-        await createUserWithEmailAndPassword(auth, email, password);
-        showToast('Akun berhasil dibuat!', 'success');
-      } else {
-        await signInWithEmailAndPassword(auth, email, password);
-        showToast('Berhasil masuk!', 'success');
-      }
-    } catch (e) {
-      const msg = e.code === 'auth/wrong-password'     ? 'Password salah.'
-                : e.code === 'auth/user-not-found'     ? 'Akun tidak ditemukan.'
-                : e.code === 'auth/email-already-in-use' ? 'Email sudah terdaftar.'
-                : e.message;
-      showToast(msg, 'error');
-    }
-  });
-
-  // Toggle Sign In / Sign Up
-  $('toggle-mode').addEventListener('click', e => {
-    e.preventDefault();
-    isSignUp = !isSignUp;
-    $('btn-email-signin').textContent = isSignUp ? 'Daftar' : 'Masuk';
-    $('toggle-mode').textContent = isSignUp ? 'Sudah punya akun? Masuk' : 'Daftar sekarang';
-    document.querySelector('h1').innerHTML = isSignUp
-      ? 'Buat akun<br><em>baru kamu</em>'
-      : 'Selamat<br><em>datang kembali</em>';
-  });
-
-  // Sign Out
-  $('btn-signout').addEventListener('click', async () => {
-    await signOut(auth);
-    showToast('Berhasil keluar.', '');
-  });
-</script>
-</body>
-</html>
+// ── Eye toggle ──
+function setupEye(eyeId, inputId){
+  $(eyeId).addEventListener('click',()=>{
+    const inp=$(inputId);
+    const show=inp.type==='password';
+    inp.type=show?'text':'password';
+    $(`${eyeId}-icon`).innerHTML = show
+      ? `<path d="M17.94 17.94A10.07
