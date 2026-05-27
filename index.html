@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0f;
+      --surface: #16161a;
+      --border: #2a2a32;
+      --text: #ede8e3;
+      --muted: #6b6677;
+      --accent: #c8b8f0;
+      --accent2: #f0c8b8;
+      --google-blue: #4285F4;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Ambient background blobs */
+    .bg-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.15;
+      pointer-events: none;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .bg-blob-1 { width: 600px; height: 600px; background: #7c4dff; top: -200px; left: -200px; }
+    .bg-blob-2 { width: 500px; height: 500px; background: #ff6d42; bottom: -150px; right: -150px; animation-delay: -4s; }
+    .bg-blob-3 { width: 350px; height: 350px; background: #00bcd4; top: 40%; left: 40%; animation-delay: -8s; }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, -30px) scale(1.05); }
+    }
+
+    /* Card */
+    .card {
+      position: relative;
+      width: 420px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 44px;
+      backdrop-filter: blur(20px);
+      animation: fadeUp 0.7s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Logo mark */
+    .logo {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 12px;
+      margin-bottom: 28px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo svg { width: 22px; height: 22px; fill: #0d0d0f; }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 2rem;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+
+    .subtitle {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 36px;
+      line-height: 1.5;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Google Button */
+    .btn-google {
+      width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 14px 20px;
+      background: #fff;
+      color: #1f1f1f;
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+      margin-bottom: 16px;
+    }
+    .btn-google:hover { background: #f5f5f5; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transform: translateY(-1px); }
+    .btn-google:active { transform: translateY(0); }
+    .btn-google svg { flex-shrink: 0; }
+
+    /* Email fallback */
+    .input-group { margin-bottom: 14px; }
+    .input-group label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.02em; }
+    .input-group input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .input-group input:focus { border-color: var(--accent); }
+    .input-group input::placeholder { color: var(--muted); }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: #0d0d0f;
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      margin-top: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .footer-text {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 28px;
+    }
+    .footer-text a { color: var(--accent); text-decoration: none; }
+    .footer-text a:hover { text-decoration: underline; }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #1e1e24; border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px 20px; font-size: 0.875rem; color: var(--text);
+      opacity: 0; transition: all 0.3s; pointer-events: none; white-space: nowrap;
+      z-index: 999;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #toast.success { border-color: #4ade80; color: #4ade80; }
+    #toast.error   { border-color: #f87171; color: #f87171; }
+
+    /* User info after login */
+    #user-info {
+      display: none;
+      text-align: center;
+    }
+    #user-info.visible { display: block; }
+    #user-info img {
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 2px solid var(--accent);
+      margin-bottom: 16px;
+    }
+    #user-info .welcome {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 6px;
+    }
+    #user-info .email { color: var(--muted); font-size: 0.875rem; margin-bottom: 24px; }
+    .btn-signout {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 10px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-signout:hover { border-color: #f87171; color: #f87171; }
+
+    #login-form { transition: opacity 0.3s; }
+  </style>
+</head>
+<body>
+
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
+<div class="bg-blob bg-blob-3"></div>
+
+<div class="card">
+  <!-- LOGIN FORM -->
+  <div id="login-form">
+    <div class="logo">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <h1>Selamat<br><em>datang kembali</em></h1>
+    <p class="subtitle">Masuk ke akun kamu untuk melanjutkan.</p>
+
+    <div class="divider">lanjutkan dengan</div>
+
+    <button class="btn-google" id="btn-google-signin">
+      <!-- Google Icon -->
+      <svg width="20" height="20" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        <path fill="none" d="M0 0h48v48H0z"/>
+      </svg>
+      Sign in with Google
+    </button>
+
+    <div class="divider">atau pakai email</div>
+
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="kamu@email.com" />
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="••••••••" />
+    </div>
+    <button class="btn-primary" id="btn-email-signin">Masuk</button>
+
+    <p class="footer-text">
+      Belum punya akun? <a href="#" id="toggle-mode">Daftar sekarang</a>
+    </p>
+  </div>
+
+  <!-- USER INFO (after login) -->
+  <div id="user-info">
+    <img id="user-photo" src="" alt="foto profil" />
+    <div class="welcome" id="user-name">Hai, User!</div>
+    <div class="email" id="user-email">user@email.com</div>
+    <button class="btn-signout" id="btn-signout">Keluar</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  // =============================================
+  //  GANTI DENGAN CONFIG FIREBASE KAMU DI SINI
+  // =============================================
+  const firebaseConfig = {
+  apiKey: "AIzaSyDk55Wc3XWV2mWmJA7c113fiw8jfWMBh4o",
+  authDomain: "auth-2b662.firebaseapp.com",
+  projectId: "auth-2b662",
+  storageBucket: "auth-2b662.firebasestorage.app",
+  messagingSenderId: "589694812230",
+  appId: "1:589694812230:web:9e0e61e4ba6d997b914a47",
+  measurementId: "G-N87036P7M5"
+};
+  // =============================================
+
+  const app      = initializeApp(firebaseConfig);
+  const auth     = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  // Utils
+  const $ = id => document.getElementById(id);
+  let isSignUp = false;
+
+  function showToast(msg, type = '') {
+    const t = $('toast');
+    t.textContent = msg;
+    t.className = 'show ' + type;
+    setTimeout(() => t.className = '', 3000);
+  }
+
+  function showUser(user) {
+    $('login-form').style.display = 'none';
+    $('user-info').classList.add('visible');
+    $('user-photo').src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'U')}&background=c8b8f0&color=0d0d0f`;
+    $('user-name').textContent = 'Hai, ' + (user.displayName || 'Pengguna') + '!';
+    $('user-email').textContent = user.email;
+  }
+
+  function showLogin() {
+    $('login-form').style.display = 'block';
+    $('user-info').classList.remove('visible');
+  }
+
+  // Auth state listener
+  onAuthStateChanged(auth, user => {
+    if (user) showUser(user);
+    else showLogin();
+  });
+
+  // Google Sign-In
+  $('btn-google-signin').addEventListener('click', async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      showToast('Berhasil masuk sebagai ' + result.user.displayName, 'success');
+    } catch (e) {
+      showToast(e.message, 'error');
+    }
+  });
+
+  // Email Sign-In / Sign-Up
+  $('btn-email-signin').addEventListener('click', async () => {
+    const email    = $('email').value.trim();
+    const password = $('password').value;
+    if (!email || !password) return showToast('Isi email dan password dulu ya!', 'error');
+    try {
+      if (isSignUp) {
+        await createUserWithEmailAndPassword(auth, email, password);
+        showToast('Akun berhasil dibuat!', 'success');
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
+        showToast('Berhasil masuk!', 'success');
+      }
+    } catch (e) {
+      const msg = e.code === 'auth/wrong-password'     ? 'Password salah.'
+                : e.code === 'auth/user-not-found'     ? 'Akun tidak ditemukan.'
+                : e.code === 'auth/email-already-in-use' ? 'Email sudah terdaftar.'
+                : e.message;
+      showToast(msg, 'error');
+    }
+  });
+
+  // Toggle Sign In / Sign Up
+  $('toggle-mode').addEventListener('click', e => {
+    e.preventDefault();
+    isSignUp = !isSignUp;
+    $('btn-email-signin').textContent = isSignUp ? 'Daftar' : 'Masuk';
+    $('toggle-mode').textContent = isSignUp ? 'Sudah punya akun? Masuk' : 'Daftar sekarang';
+    document.querySelector('h1').innerHTML = isSignUp
+      ? 'Buat akun<br><em>baru kamu</em>'
+      : 'Selamat<br><em>datang kembali</em>';
+  });
+
+  // Sign Out
+  $('btn-signout').addEventListener('click', async () => {
+    await signOut(auth);
+    showToast('Berhasil keluar.', '');
+  });
+</script>
+</body>
+</html>
