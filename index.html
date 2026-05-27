@@ -336,13 +336,12 @@ import {
 //  🔧 GANTI CONFIG DI SINI
 // ════════════════════════════════════════
 const firebaseConfig = {
-  apiKey: "AIzaSyDk55Wc3XWV2mWmJA7c113fiw8jfWMBh4o",
-  authDomain: "auth-2b662.firebaseapp.com",
-  projectId: "auth-2b662",
-  storageBucket: "auth-2b662.firebasestorage.app",
+  apiKey:            "AIzaSyDk55Wc3XWV2mWmJA7c113fiw8jfWMBh4o",
+  authDomain:        "auth-2b662.firebaseapp.com",
+  projectId:         "auth-2b662",
+  storageBucket:     "auth-2b662.firebasestorage.app",
   messagingSenderId: "589694812230",
-  appId: "1:589694812230:web:9e0e61e4ba6d997b914a47",
-  measurementId: "G-N87036P7M5"
+  appId:             "1:589694812230:web:9e0e61e4ba6d997b914a47"
 };
 // ════════════════════════════════════════
 
@@ -371,5 +370,4 @@ function setupEye(eyeId, inputId){
     const inp=$(inputId);
     const show=inp.type==='password';
     inp.type=show?'text':'password';
-    $(`${eyeId}-icon`).innerHTML = show
-      ? `<path d="M17.94 17.94A10.07
+    $(`${eyeId}-icon`)
